@@ -9,6 +9,7 @@ import (
 	_ "github.com/golang-migrate/migrate/v4/source/file"
 	"github.com/labstack/echo/v4"
 	_ "github.com/lib/pq"
+	"github.com/twilio/twilio-go"
 	controller "github.com/umitbasakk/humanComputerInteractionBackend/UserStore/Controller"
 	"github.com/umitbasakk/humanComputerInteractionBackend/UserStore/database"
 	"github.com/umitbasakk/humanComputerInteractionBackend/UserStore/middlewares"
@@ -49,8 +50,8 @@ func main() {
 	}
 
 	client := twilio.NewRestClientWithParams(twilio.ClientParams{
-		Username: "", //
-		Password: "", //
+		Username: "AC7ed880bbbac683e5c3ff3b553631be20", //
+		Password: "c049546a99d30d5e0db61ba98f7dff9a",   //
 	})
 
 	userDataLayer := database.NewUserDatalayerImpl(db)
