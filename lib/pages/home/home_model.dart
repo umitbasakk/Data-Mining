@@ -1,3 +1,5 @@
+import 'package:food_delivery_prototype_app_ui_kit/components/food_item/food_item_model.dart';
+
 import '/components/nav_bar_with_middle_button/nav_bar_with_middle_button_widget.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import 'home_widget.dart' show HomeWidget;
@@ -17,6 +19,7 @@ class HomeModel extends FlutterFlowModel<HomeWidget> {
   // State field(s) for TextField widget.
   FocusNode? tagFieldFocusNode;
   TextEditingController? tagController;
+  FoodItemModel? foodItemModel;
 
   late NavBarWithMiddleButtonModel navBarWithMiddleButtonModel;
 

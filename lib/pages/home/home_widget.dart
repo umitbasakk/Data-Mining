@@ -1,8 +1,11 @@
 import 'dart:io';
 
+import 'package:food_delivery_prototype_app_ui_kit/components/food_item/food_item_model.dart';
+import 'package:food_delivery_prototype_app_ui_kit/components/food_item/food_item_widget.dart';
 import 'package:food_delivery_prototype_app_ui_kit/components/log_out_modal/log_out_modal_widget.dart';
 import 'package:food_delivery_prototype_app_ui_kit/flutter_flow/flutter_flow_widgets.dart';
 import 'package:food_delivery_prototype_app_ui_kit/model/AIData.dart';
+import 'package:food_delivery_prototype_app_ui_kit/model/FoodItem.dart';
 import 'package:food_delivery_prototype_app_ui_kit/model/user.dart';
 import 'package:food_delivery_prototype_app_ui_kit/utils/utils.dart';
 import 'package:food_delivery_prototype_app_ui_kit/view_model/ai_view_model.dart';
@@ -40,6 +43,7 @@ class _HomeWidgetState extends State<HomeWidget> {
 
     _model.tagController ??= TextEditingController();
     _model.tagFieldFocusNode ??= FocusNode();
+    _model.foodItemModel ??=FoodItemModel();
 
   }
 
@@ -59,6 +63,7 @@ class _HomeWidgetState extends State<HomeWidget> {
        builder: (context,snapshot){
         if (snapshot.hasData){
         return  Scaffold(
+                  backgroundColor: FlutterFlowTheme.of(context).primaryBackground,
                   body: ListView(
                     children: <Widget>[
                       _top(userViewModel.user?.name??"Null"),
@@ -78,7 +83,7 @@ _LoadingScaffold(){
                                         FocusScope.of(context).unfocus(); // Klavyeyi gizlemek için
                                       },
                                       child: Scaffold(
-                                        backgroundColor: Colors.white,
+                                        backgroundColor: FlutterFlowTheme.of(context).primaryBackground,
                                         body: Center(
                                           child: Column(
                                             mainAxisSize: MainAxisSize.min,
@@ -274,13 +279,46 @@ _LoadingScaffold(){
       padding: EdgeInsets.all(16),
       width: double.infinity,
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: FlutterFlowTheme.of(context).grey3,
        
       ),
       child:  SingleChildScrollView(
         child: Column(
           children: [
               _selectedImage != null ? Image.file(_selectedImage!,width: 350,height: 350,) : const Text(""),
+              Column(
+                                    mainAxisSize: MainAxisSize.max,
+                                    children: [
+                                      Padding(
+                                        padding: const EdgeInsetsDirectional.fromSTEB(
+                                            0.0, 0.0, 0.0, 0.0),
+                                        child: Container(
+                                          decoration: BoxDecoration(
+                                            color: FlutterFlowTheme.of(context).grey3,
+                                            borderRadius:
+                                                BorderRadius.circular(0.0),
+                                          ),
+                                          child: SingleChildScrollView(
+                                                        child: Column(
+                                                          mainAxisSize: MainAxisSize.max,
+                                                          children: List.generate(4, (index){
+                                                          return Padding(
+                                                            padding:  EdgeInsets.symmetric(vertical: 10,horizontal: 0),
+                                                            child: wrapWithModel(
+                                                              model:
+                                                                  _model.foodItemModel!,
+                                                              
+                                                              child:  FoodItemWidget(foodItem: FoodItem(foodUrl: "asd",foodName: "Food",foodCalories: "123",foodPrice: "123"),),
+                                                            ),
+                                                            ); 
+                                                          }),
+                                                        ),
+                                                      ),
+                                        ),
+                                      ),
+                                     
+                                    ].divide(const SizedBox(height: 16.0)),
+                                  ),
           ],
         )
       ),
