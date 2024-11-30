@@ -36,6 +36,7 @@ class _HomeWidgetState extends State<HomeWidget> {
   late HomeModel _model;
   final scaffoldKey = GlobalKey<ScaffoldState>();
   File? _selectedImage;
+  Future<List<FoodItem>?>? _apiResponseFuture;
   @override
   void initState() {
     super.initState();
@@ -63,10 +64,10 @@ class _HomeWidgetState extends State<HomeWidget> {
        builder: (context,snapshot){
         if (snapshot.hasData){
         return  Scaffold(
-                  backgroundColor: FlutterFlowTheme.of(context).primaryBackground,
+                  backgroundColor: FlutterFlowTheme.of(context).grey3,
                   body: ListView(
                     children: <Widget>[
-                      _top(userViewModel.user?.name??"Null"),
+                      _top(userViewModel.user?.name??"Null",aiViewModel,userViewModel),
                     ],
                   ),
                 );
@@ -77,6 +78,30 @@ class _HomeWidgetState extends State<HomeWidget> {
        }); 
   }
 
+_LoadingPanel(){
+  return Center(
+                                          child: Column(
+                                            mainAxisSize: MainAxisSize.min,
+                                            children: [
+                                              // Dönen yüklenme animasyonu
+                                              CircularProgressIndicator(
+                                                valueColor: AlwaysStoppedAnimation<Color>(Colors.blue),
+                                                strokeWidth: 4.0,
+                                              ),
+                                              SizedBox(height: 20), // Animasyon ile yazı arasında boşluk
+                                              // Yükleniyor yazısı
+                                              Text(
+                                                'Loading...',
+                                                style: TextStyle(
+                                                  fontSize: 18,
+                                                  fontWeight: FontWeight.w500,
+                                                  color: Colors.grey[600],
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        );
+}
 _LoadingScaffold(){
     return GestureDetector(
                                       onTap: () {
@@ -110,8 +135,9 @@ _LoadingScaffold(){
                                     );
 }
 
+  
 
-  _top(String Username){
+  _top(String Username,AIViewModel aiViewModel, UserViewModel userViewModel){
     return Column(
       mainAxisAlignment: MainAxisAlignment.start,
       children: [
@@ -211,7 +237,7 @@ _LoadingScaffold(){
                                                   width: 250.0,
                                                   child: TextButton(
                                                       onPressed: () async{
-                                                       _pickImageFromGallery();
+                                                       _pickImageFromGallery(aiViewModel,userViewModel);
                                                       },
                                                       child: Text("Select Image On Gallery"),
                                                     ),
@@ -259,7 +285,7 @@ _LoadingScaffold(){
                                                   width: 250.0,
                                                   child: TextButton(
                                                       onPressed: () async{
-                                                       _pickImageFromGallery();
+                                                       _pickImageFromGallery(aiViewModel,userViewModel);
                                                       },
                                                       child: Text("Take a Picture"),
                                                     ),
@@ -286,7 +312,12 @@ _LoadingScaffold(){
         child: Column(
           children: [
               _selectedImage != null ? Image.file(_selectedImage!,width: 350,height: 350,) : const Text(""),
-              Column(
+              _apiResponseFuture != null ? FutureBuilder(
+                future: _apiResponseFuture, 
+                builder: (context,snapshot){
+                     if(snapshot.hasData){
+                      final list = snapshot.data!;
+                      return Column(
                                     mainAxisSize: MainAxisSize.max,
                                     children: [
                                       Padding(
@@ -301,14 +332,14 @@ _LoadingScaffold(){
                                           child: SingleChildScrollView(
                                                         child: Column(
                                                           mainAxisSize: MainAxisSize.max,
-                                                          children: List.generate(4, (index){
+                                                          children: List.generate(list.length, (index){
                                                           return Padding(
                                                             padding:  EdgeInsets.symmetric(vertical: 10,horizontal: 0),
                                                             child: wrapWithModel(
                                                               model:
                                                                   _model.foodItemModel!,
                                                               
-                                                              child:  FoodItemWidget(foodItem: FoodItem(foodUrl: "asd",foodName: "Food",foodCalories: "123",foodPrice: "123"),),
+                                                              child:  FoodItemWidget(foodItem: FoodItem(foodUrl: "asd",foodName: index.toString(),foodCalories: "123",foodPrice: "123"),),
                                                             ),
                                                             ); 
                                                           }),
@@ -318,7 +349,22 @@ _LoadingScaffold(){
                                       ),
                                      
                                     ].divide(const SizedBox(height: 16.0)),
-                                  ),
+                                  );
+                    }else if(snapshot.connectionState == ConnectionState.waiting){
+                      print("WAITING");
+                      return _LoadingPanel();
+                    }else if (snapshot.hasError){
+                        print("ERROR");
+                      return _LoadingPanel();
+                    }else{
+                                              print("ERROR");
+
+                      return Column(
+                      );
+                    }
+                }): 
+                Container(),
+              
           ],
         )
       ),
@@ -327,10 +373,13 @@ _LoadingScaffold(){
     );
   }
 
-  Future _pickImageFromGallery() async{
+  Future _pickImageFromGallery(AIViewModel aiViewModel,UserViewModel userViewModel) async{
+    _apiResponseFuture = null;
     final returnedImage = await ImagePicker().pickImage(source: ImageSource.gallery);
+    final response =  (aiViewModel.requestApi("data", context, userViewModel.user?.token??""));
     setState(() {
       _selectedImage= File(returnedImage!.path);
+      _apiResponseFuture = response as Future<List<FoodItem>?>?;
     });
   }
 }

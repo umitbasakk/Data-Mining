@@ -146,7 +146,6 @@ class _NavBarPageState extends State<NavBarPage> {
   Widget build(BuildContext context) {
     final tabs = {
       'Home': const HomeWidget(),
-      'RecentSearch': const LastSearchesWidget(),
       'Settings': const SettingWidget(),
     };
     final currentIndex = tabs.keys.toList().indexOf(_currentPageName);
@@ -172,14 +171,6 @@ class _NavBarPageState extends State<NavBarPage> {
               size: 24.0,
             ),
             label: "Home",
-            tooltip: '',
-          ),
-          BottomNavigationBarItem(
-            icon: const Icon(
-              FFIcons.karrowsTransferUp,
-              size: 24.0,
-            ),
-            label: "Recent Search",
             tooltip: '',
           ),
             BottomNavigationBarItem(
