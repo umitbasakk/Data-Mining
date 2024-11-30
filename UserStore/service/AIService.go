@@ -59,7 +59,7 @@ func (AIService *AIServiceImpl) GetResult(context context.Context, ctx echo.Cont
 		return ctx.JSON(http.StatusOK, &model.MessageHandler{Message: err.Error(), ErrCode: model.Authorized})
 	}
 
-	url := "http://127.0.0.1:5000/receiverImage"
+	url := "http://host.docker.internal:5000/receiverImage"
 
 	client := &http.Client{
 		Timeout: 5 * time.Second,
