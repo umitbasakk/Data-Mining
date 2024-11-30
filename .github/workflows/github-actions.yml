@@ -1,7 +1,8 @@
 name: Github Actions
 run-name: Started deploying
 on:
-  branches:
+  push:
+    branches:
       - Backend
 jobs:
   Deployin:
