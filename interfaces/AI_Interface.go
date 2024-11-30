@@ -12,7 +12,6 @@ import (
 
 type AIService interface {
 	GetResult(context context.Context, ctx echo.Context, request *AIModel.AIRequest, user *AuthModel.User) error
-	GetAllRequests(context context.Context, ctx echo.Context, user *AuthModel.User) error
 }
 
 type AIDataLayer interface {
