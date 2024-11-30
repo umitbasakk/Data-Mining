@@ -59,7 +59,7 @@ func (AIService *AIServiceImpl) GetResult(context context.Context, ctx echo.Cont
 		return ctx.JSON(http.StatusOK, &model.MessageHandler{Message: err.Error(), ErrCode: model.Authorized})
 	}
 
-	url := "http://host.docker.internal:5000/receiverImage"
+	url := fmt.Sprintf("http://%s:5000/receiverImage", os.Getenv("PYTHON_HOST"))
 
 	client := &http.Client{
 		Timeout: 5 * time.Second,

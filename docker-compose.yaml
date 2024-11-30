@@ -1,4 +1,27 @@
 services:
+    product:
+        build:
+          context: ./
+          dockerfile: Dockerfile-product.yaml
+        restart: always
+        ports:
+          - "1323:1323"
+        environment:
+          DB_USER: user
+          DB_PASSWORD: password
+          DB_HOST: host.docker.interna
+          DB_PORT: 5432
+          DB_NAME: db
+          TWILIO_USERNAME: AC7ed880bbbac683e5c3ff3b553631be20
+          TWILIO_PASSWORD: 683680b0b7e4df5f14b9a7b8695560ea
+          PYTHON_HOST: py
+        depends_on:
+          - py
+    py:
+      build:
+        context: ./
+        dockerfile: Dockerfile-ai.yaml
+      restart: always
     postgre:
         image: postgres
         ports:
