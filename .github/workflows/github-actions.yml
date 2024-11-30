@@ -1,0 +1,10 @@
+name: Github Actions
+run-name: Started deploying
+on:
+  branches:
+      - Backend
+jobs:
+  Deployin:
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "hello world"
