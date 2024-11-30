@@ -21,3 +21,15 @@ type AIData struct {
 	Created_at    time.Time `json:"created_at" xml:"created_at" form:"created_at" query:"created_at"`
 	Updated_at    time.Time `json:"updated_at" xml:"updated_at" form:"updated_at" query:"updated_at"`
 }
+
+type Food struct {
+	FoodUrl      string `json:"foodUrl" xml:"foodUrl" form:"foodUrl" query:"foodUrl"`
+	FoodName     string `json:"foodName" xml:"foodName" form:"foodName" query:"foodName"`
+	FoodCalories string `json:"foodCalories" xml:"foodCalories" form:"foodCalories" query:"foodCalories"`
+	FoodPrice    string `json:"foodPrice" xml:"foodPrice" form:"foodPrice" query:"foodPrice"`
+}
+
+type ResponseAIApp struct {
+	Status           string `json:"status"`
+	Received_message []Food `json:"received_message"`
+}
