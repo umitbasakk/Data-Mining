@@ -366,7 +366,7 @@ class _FilterPopupWidgetState extends State<FilterPopupWidget> {
                               requestData.hashTag = widget.tag;
                               requestData.category = selectedIndex!.toString();
                               requestData.quantityLimit = _model.sliderValue!.toString();
-                              aiViewModel.requestApi(requestData.toJson(), context, userViewModel.user?.token ?? "");
+                              //aiViewModel.requestApi(requestData.toJson(), context, userViewModel.user?.token ?? "");
                               Navigator.pop(context);
                               }
                           },

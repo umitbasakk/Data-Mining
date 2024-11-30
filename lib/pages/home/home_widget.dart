@@ -339,7 +339,7 @@ _LoadingScaffold(){
                                                               model:
                                                                   _model.foodItemModel!,
                                                               
-                                                              child:  FoodItemWidget(foodItem: FoodItem(foodUrl: "asd",foodName: index.toString(),foodCalories: "123",foodPrice: "123"),),
+                                                              child:  FoodItemWidget(foodItem: list[index]),
                                                             ),
                                                             ); 
                                                           }),
@@ -376,7 +376,7 @@ _LoadingScaffold(){
   Future _pickImageFromGallery(AIViewModel aiViewModel,UserViewModel userViewModel) async{
     _apiResponseFuture = null;
     final returnedImage = await ImagePicker().pickImage(source: ImageSource.gallery);
-    final response =  (aiViewModel.requestApi("data", context, userViewModel.user?.token??""));
+    final response =  (aiViewModel.requestApi(File(returnedImage!.path), context, userViewModel.user?.token??""));
     setState(() {
       _selectedImage= File(returnedImage!.path);
       _apiResponseFuture = response as Future<List<FoodItem>?>?;

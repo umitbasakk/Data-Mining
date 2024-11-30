@@ -68,8 +68,8 @@ class _FoodItemWidgetState extends State<FoodItemWidget> {
                 ),
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(0),
-                  child: Image.asset(
-                    'assets/images/Img.png',
+                  child: Image.network(
+                    widget.foodItem.foodUrl!,
                     width: 300,
                     height: 200,
                     fit: BoxFit.cover,
@@ -87,7 +87,7 @@ class _FoodItemWidgetState extends State<FoodItemWidget> {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Flexible(
-                              child: Text("#123",
+                              child: Text(widget.foodItem.foodName!,
                                 maxLines: 2,
                                 style: FlutterFlowTheme.of(context)
                                     .titleMedium
@@ -120,7 +120,7 @@ class _FoodItemWidgetState extends State<FoodItemWidget> {
                                       .secondaryText,
                                   size: 16.0,
                                 ),
-                                Text("ASD",
+                                Text(widget.foodItem.foodCalories!,
                                   style: FlutterFlowTheme.of(context)
                                       .labelSmall
                                       .override(
@@ -153,7 +153,7 @@ class _FoodItemWidgetState extends State<FoodItemWidget> {
                                       .secondaryText,
                                   size: 16.0,
                                 ),
-                                Text("asd",
+                                Text(widget.foodItem.foodPrice!,
                                   style: FlutterFlowTheme.of(context)
                                       .labelSmall
                                       .override(

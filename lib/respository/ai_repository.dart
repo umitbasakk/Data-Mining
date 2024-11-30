@@ -1,6 +1,7 @@
 
 
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:food_delivery_prototype_app_ui_kit/data/network/BaseApiServices.dart';
 import 'package:food_delivery_prototype_app_ui_kit/data/network/NetworkApiService.dart';
@@ -22,6 +23,14 @@ class AIRepository{
      Future<ResponseOnApp> getAllRequestOfUserApi(String token) async{
       try{
         ResponseOnApp response = await _apiServices.getGetApiResponse(AppUrl.getAllRequestOfUserEndPoint, token);
+        return response;
+      }catch(e){
+        throw(e);
+      }
+    }
+     Future<ResponseOnApp> getPostFormApi(File file,String token) async{
+      try{
+        ResponseOnApp response = await _apiServices.getPostFormApiResponse(AppUrl.requestAIEndPoint,file, token);
         return response;
       }catch(e){
         throw(e);

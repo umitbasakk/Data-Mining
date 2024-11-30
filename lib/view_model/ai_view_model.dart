@@ -1,5 +1,7 @@
 
 
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:food_delivery_prototype_app_ui_kit/model/AIData.dart';
 import 'package:food_delivery_prototype_app_ui_kit/model/AiDataResponse.dart';
@@ -12,22 +14,17 @@ class AIViewModel  with ChangeNotifier{
 
   final _aiRepository = AIRepository();
 
-  Future<List<FoodItem>?>? requestApi(dynamic data,BuildContext context,String token) async{
+  Future<List<FoodItem>?>? requestApi(File file,BuildContext context,String token) async{
     List<FoodItem> list = [];
-    list.add( FoodItem(foodUrl: "asd",foodName: "Food",foodCalories: "123",foodPrice: "123"));
-    list.add( FoodItem(foodUrl: "asd",foodName: "Food",foodCalories: "123",foodPrice: "123"));
-    await Future.delayed(Duration(seconds: 5),(){
-      
-    });
-    return  list;
-    
-    /*
-    _aiRepository.requestApi(data, token).then((value){
+    await _aiRepository.getPostFormApi(file, token).then((value){
       Utils.flushBarSuccessMessage(value.message.toString(), context);
+      (value.data as List<dynamic>).forEach((value){
+        list.add(FoodItem.fromJson(value));
+      });
     }).onError((error,StackTrace){
       Utils.flushBarErrorMessage((error as ResponseOnApp).message.toString(), context);
     });
-    */
+  return list;
   }
 
   Future<List<AiDataResponse>> getAllRequestOfUserApi(BuildContext context,String token) async{

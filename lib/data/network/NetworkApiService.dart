@@ -46,6 +46,30 @@ class NetworkApiService extends BaseApiServices{
     return responseJson;
   }
 
+   @override
+  Future<ResponseOnApp> getPostFormApiResponse(String url,File file,String token) async{
+    
+    ResponseOnApp responseJson;
+    try{
+      MultipartRequest request = http.MultipartRequest('POST', Uri.parse(url))
+        ..headers['Authorization'] = "Bearer $token" // Bearer Token
+        ..files.add(await http.MultipartFile.fromPath(
+          'image', // Backend'deki dosya form alanı adı
+          file!.path,
+        ));
+      final streamedResponse = await request.send();
+      final response = await http.Response.fromStream(streamedResponse);
+
+      responseJson =  returnResponse(response);
+      
+    }catch (e){
+      throw e;
+    }
+    return responseJson;
+  }
+
+
+
   ResponseOnApp returnResponse(http.Response response){
     switch(response.statusCode){
       case 200:
@@ -67,5 +91,7 @@ class NetworkApiService extends BaseApiServices{
         throw FetchDataException("Error accured while communicating with server"+ "with status code"+ response.statusCode.toString());
     }
   }
+  
+ 
 
 }
