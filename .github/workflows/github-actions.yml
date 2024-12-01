@@ -11,6 +11,7 @@ jobs:
       - name: Check out repository code
         uses: actions/checkout@v4
   Deploy:
+    needs: Test
     runs-on: self-hosted
     steps:
       - name: Docker Login
