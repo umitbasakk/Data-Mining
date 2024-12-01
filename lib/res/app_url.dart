@@ -1,5 +1,5 @@
 class AppUrl{
-  static var baseUrl = 'http://10.0.2.2:1323';
+  static var baseUrl = 'http://65.108.148.117:1323';
   //AUTH
   static var loginEndPoint = baseUrl + '/login';
   static var registerEndPoint = baseUrl + '/register';
