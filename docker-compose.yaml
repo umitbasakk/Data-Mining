@@ -9,7 +9,7 @@ services:
         environment:
           DB_USER: user
           DB_PASSWORD: password
-          DB_HOST: host.docker.internal
+          DB_HOST: postgre
           DB_PORT: 5432
           DB_NAME: db
           TWILIO_USERNAME: AC7ed880bbbac683e5c3ff3b553631be20
@@ -24,7 +24,7 @@ services:
         dockerfile: Dockerfile-ai.yaml
       restart: always
     postgre:
-        image: postgres
+        build: postgres
         restart: always
         ports:
             - "5432:5432"
