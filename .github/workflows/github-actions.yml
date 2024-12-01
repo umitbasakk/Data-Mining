@@ -8,6 +8,7 @@ jobs:
   Deployin:
     runs-on: ubuntu-latest
     steps:
-      - run: echo "🔎 The name of your branch is ${{ GITHUB_REF#refs/*/ }} and your repository is ${{ github.repository }}."
       - name: Check out repository code
         uses: actions/checkout@v4
+      - name: Docker Login
+        run: docker login -u "${{secrets.DOCKER_USERNAME}}"" -p "${{secrets.DOCKER_PASSWORD}}"
