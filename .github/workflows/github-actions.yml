@@ -16,5 +16,9 @@ jobs:
     steps:
       - name: Docker Login
         run: docker login -u "${{secrets.DOCKER_USERNAME}}" -p "${{secrets.DOCKER_PASSWORD}}"
+      
       - name: Deploy Compose
-        run: ls
+        run: pwd
+     
+      - name: Deploy Composee
+        run: ls -a
