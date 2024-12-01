@@ -18,11 +18,7 @@ jobs:
         uses: actions/checkout@v4
         with:
           ref: Backend
-
-      - name: Docker Login
-        run: docker login -u "${{secrets.DOCKER_USERNAME}}" -p "${{secrets.DOCKER_PASSWORD}}"
-
+          
       - name: Deploy Compose
         run: |
-           docker compose -f docker-compose.yaml -p datamining down --rmi all --volumes
            docker compose -f docker-compose.yaml -p datamining up -d
