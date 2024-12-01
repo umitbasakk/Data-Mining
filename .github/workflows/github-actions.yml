@@ -17,5 +17,4 @@ jobs:
       - name: Docker Login
         run: docker login -u "${{secrets.DOCKER_USERNAME}}" -p "${{secrets.DOCKER_PASSWORD}}"
       - name: Deploy Compose
-        run: |
-           docker compose -p datamining up -d
+        run: ls
