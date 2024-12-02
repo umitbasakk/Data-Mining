@@ -26,23 +26,6 @@ func main() {
 	}
 	defer db.Close()
 
-	files, err := os.ReadDir("./migrations")
-	if err != nil {
-		fmt.Println("Hata:", err)
-		return
-	}
-
-	// Dosyaları listele
-	fmt.Println("Dizindeki dosyalar:")
-	for _, file := range files {
-		fmt.Println(file.Name())
-	}
-
-	if err != nil {
-		fmt.Println("Hata:", err)
-		return
-	}
-
 	m, err := migrate.New(
 		"file://./migrations",
 		psqlInfo)

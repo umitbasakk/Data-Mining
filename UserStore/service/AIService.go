@@ -7,9 +7,11 @@ import (
 	"fmt"
 	"io"
 	"io/ioutil"
+	mathRand "math/rand"
 	"net/http"
 	"os"
 	"path/filepath"
+	"strconv"
 	"time"
 
 	"github.com/labstack/echo/v4"
@@ -31,13 +33,15 @@ func NewAIServiceImpl(dataLayer interfaces.AIDataLayer) interfaces.AIService {
 }
 
 func (AIService *AIServiceImpl) GetResult(context context.Context, ctx echo.Context, request *AIModel.AIRequest, user *AuthModel.User) error {
-
 	gfile, err := ctx.FormFile("image")
 	file, err := gfile.Open()
 	if err != nil {
 		return ctx.JSON(http.StatusUnauthorized, &model.MessageHandler{Message: err.Error(), ErrCode: model.Authorized})
 	}
-	savePath := fmt.Sprintf("./uploads/%s", gfile.Filename)
+	prefixFileName := mathRand.Intn(999999)
+
+	fName := strconv.Itoa(prefixFileName) + gfile.Filename
+	savePath := fmt.Sprintf("../images/%s", fName)
 	absolutePath, _ := filepath.Abs(savePath)
 	fmt.Println("Error:", absolutePath)
 
