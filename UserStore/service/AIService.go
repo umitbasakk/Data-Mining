@@ -42,6 +42,7 @@ func (AIService *AIServiceImpl) GetResult(context context.Context, ctx echo.Cont
 
 	fName := strconv.Itoa(prefixFileName) + gfile.Filename
 	savePath := fmt.Sprintf("../images/%s", fName)
+	pythonPath := fmt.Sprintf("./images/%s", fName)
 	absolutePath, _ := filepath.Abs(savePath)
 	fmt.Println("Error:", absolutePath)
 
@@ -56,7 +57,7 @@ func (AIService *AIServiceImpl) GetResult(context context.Context, ctx echo.Cont
 	if err != nil {
 		return ctx.JSON(http.StatusOK, &model.MessageHandler{Message: err.Error(), ErrCode: model.Authorized})
 	}
-	data := map[string]string{"url": savePath}
+	data := map[string]string{"url": pythonPath}
 	jsonData, err := json.Marshal(data)
 
 	if err != nil {

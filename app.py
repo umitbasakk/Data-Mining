@@ -23,8 +23,13 @@ class Food:
 @app.route('/receiverImage', methods=['POST'])
 def receive_image():
     data = request.get_json()
+    imgUrl  = data["url"]
+   
+
     food = []
     #food_list needs to be filled
+    if os.path.exists(imgUrl) and os.path.isfile(imgUrl):
+        print("Dosya mevcut")
     food_list = [
         ("https://cdn.yemek.com/mncrop/940/625/uploads/2015/11/kuru-fasulye-yemekcom.jpg", "Kuru Fasulye","357","100")]
 
@@ -32,8 +37,7 @@ def receive_image():
         foodObject = Food(url,name,calories,price)
         food.append(foodObject.to_dict())
     
-    if not data or 'url' not in data:
-        return jsonify({"error": "No 'message' field found in request"}), 400
+   
 
 
     return jsonify({"status": "success", "received_message": food}),200
